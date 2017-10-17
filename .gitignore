@@ -1,0 +1,49 @@
+#ignore thumbnails created by windows
+Thumbs.db
+
+# Microsoft Fakes
+FakesAssemblies/
+
+#Ignore files build by Visual Studio
+*.obj
+*.exe
+!signtool.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.lib
+*.sbr
+obj/
+.vs
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+RevenueWellClientTools.sln.DotSettings.user
+RevenueWellClientTools.InstallerNSIS/RW_PMSClient_setup.exe
+RevenueWellClientTools.sln.DotSettings.user
+/RevenueWellClientTools.InstallerNSIS/RW_PMSClient_setup.exe
+RevenueWellClientTools.InstallerNSIS/ES16/essqlutility.txt
+
+#Ignore packages directory
+Packages/
+
+#Automatic updates build output directory
+AutoUpdates/
+
+# MSI setup files & WIX files
+*.msi
+*.wxs
