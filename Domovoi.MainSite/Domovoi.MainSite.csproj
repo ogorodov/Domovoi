@@ -22,7 +22,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\app\components\consumers\consumers.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Domovoi.DAL\Domovoi.DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\components\consumers\consumers.component.ts" />
   </ItemGroup>
 
   <ItemGroup>

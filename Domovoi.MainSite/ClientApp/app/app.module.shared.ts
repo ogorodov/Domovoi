@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { MomentModule} from 'angular2-moment';
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -31,7 +32,8 @@ import { ServicesComponent } from './components/services/services.component';
             { path: 'fetch-data', component: FetchDataComponent },
             { path: 'services', component: ServicesComponent },
             { path: '**', redirectTo: 'home' }
-        ])
+        ]),
+        MomentModule
     ]
 })
 export class AppModuleShared {

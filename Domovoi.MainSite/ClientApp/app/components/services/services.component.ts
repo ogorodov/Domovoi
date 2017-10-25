@@ -27,4 +27,5 @@ interface IServicePrice {
     service: IService;
     startDate: Date;
     endDate: Date;
+    price: number;
 }

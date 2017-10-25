@@ -23,10 +23,10 @@ namespace Domovoi.DAL.Data
                         Name = "Текущий ремонт жилфонда",
                         Prices = new List<ServicePrice>
                         {
-                            new ServicePrice {StartDate = new DateTime(2000, 01, 01), EndDate = new DateTime(2004, 12, 01)},
-                            new ServicePrice {StartDate = new DateTime(2005, 01, 01), EndDate = new DateTime(2009, 12, 01)},
-                            new ServicePrice {StartDate = new DateTime(2010, 01, 01), EndDate = new DateTime(2014, 12, 01)},
-                            new ServicePrice {StartDate = new DateTime(2015, 01, 01)}
+                            new ServicePrice {StartDate = new DateTime(2000, 01, 01), EndDate = new DateTime(2004, 12, 01), Price = 100},
+                            new ServicePrice {StartDate = new DateTime(2005, 01, 01), EndDate = new DateTime(2009, 12, 01), Price = 200},
+                            new ServicePrice {StartDate = new DateTime(2010, 01, 01), EndDate = new DateTime(2014, 12, 01), Price = 300},
+                            new ServicePrice {StartDate = new DateTime(2015, 01, 01), Price = 400}
                         }
                     },
                     new Service
@@ -34,7 +34,7 @@ namespace Domovoi.DAL.Data
                         Name = "Антена",
                         Prices = new List<ServicePrice>
                         {
-                            new ServicePrice {StartDate = new DateTime(2015, 01, 01)}
+                            new ServicePrice {StartDate = new DateTime(2015, 01, 01), Price = 50}
                         }
                     },
                     new Service
@@ -42,8 +42,8 @@ namespace Domovoi.DAL.Data
                         Name = "Уборка",
                         Prices = new List<ServicePrice>
                         {
-                            new ServicePrice {StartDate = new DateTime(2011, 01, 01), EndDate = new DateTime(2014, 06, 01)},
-                            new ServicePrice {StartDate = new DateTime(2014, 07, 01)}
+                            new ServicePrice {StartDate = new DateTime(2011, 01, 01), EndDate = new DateTime(2014, 06, 01), Price = 120},
+                            new ServicePrice {StartDate = new DateTime(2014, 07, 01), Price = 180}
                         }
                     }
                 };

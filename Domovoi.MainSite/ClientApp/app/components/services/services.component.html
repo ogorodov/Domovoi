@@ -9,43 +9,22 @@
         </div>
         <div id="collapse{{service.id}}" class="panel-collapse collapse">
             <table class="table">
-                <thead>
+                <!--<thead>
                     <tr>
                         <th>StartDate</th>
                         <th>EndDate</th>
+                        <th>Price</th>
                     </tr>
-                </thead>
+                </thead>-->
                 <tbody>
                     <tr *ngFor="let price of service.prices">
-                        <td>{{price.startDate}}</td>
-                        <td>{{price.endDate}}</td>
+                        <td>{{price.startDate | amLocale:'RU' | amDateFormat:'MMMM YYYY' }}</td>
+                        <td *ngIf="price.endDate">{{price.endDate | amLocale:'RU' | amDateFormat:'MMMM YYYY' }}</td>
+                        <td *ngIf="!price.endDate"></td>
+                        <td>{{price.price}}</td>
                     </tr>
                 </tbody>
             </table>
-
-            <!--<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat.</div>-->
         </div>
     </div>
 </div>
-
-<!--<table class="table" *ngIf="services">
-    <thead>
-    <tr>
-        <th>Date</th>
-        <th>Temp. (C)</th>
-        <th>Temp. (F)</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let service of services">
-        <td>{{ service.id }}</td>
-        <td>{{ service.name }}</td>
-        <td>
-            
-        </td>
-    </tr>
-    </tbody>
-</table>-->
