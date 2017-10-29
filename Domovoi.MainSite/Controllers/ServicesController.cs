@@ -3,10 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domovoi.DAL.Data;
 using Domovoi.DAL.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace Domovoi.MainSite.Controllers
 {
@@ -21,38 +19,13 @@ namespace Domovoi.MainSite.Controllers
             _context = context;
         }
 
-        //// GET: api/Services
-        //[HttpGet]
-        //public IEnumerable<Service> GetServices()
-        //{
-        //    var t =  _context.Services
-        //        //.Include(o => o.Prices)
-        //        .ToArray();
-
-        //    return t;
-        //}
-
         // GET: api/Services
         [HttpGet]
-        public JsonResult GetServices()
+        public IEnumerable<Service> GetServices()
         {
-            var t = _context.Services
+            return _context.Services
                 .Include(o => o.Prices)
                 .ToArray();
-
-            var j = Json(t);
-
-            JsonSerializerSettings settings = new JsonSerializerSettings
-            {
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-                Formatting = Formatting.Indented
-            };
-
-            string jsonText = JsonConvert.SerializeObject(t, settings);
-
-            //Response.WriteAsync(jsonText);
-
-            return j;
         }
 
         // GET: api/Services/5

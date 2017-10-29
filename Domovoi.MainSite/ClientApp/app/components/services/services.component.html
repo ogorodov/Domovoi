@@ -1,4 +1,4 @@
-﻿<h1>Услуги</h1>
+﻿<h3>Услуги</h3>
 
 <div class="panel-group" id="accordion" *ngIf="services">
     <div class="panel panel-default" *ngFor="let service of services">
@@ -9,20 +9,13 @@
         </div>
         <div id="collapse{{service.id}}" class="panel-collapse collapse">
             <table class="table">
-                <!--<thead>
-                    <tr>
-                        <th>StartDate</th>
-                        <th>EndDate</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>-->
                 <tbody>
-                    <tr *ngFor="let price of service.prices">
-                        <td>{{price.startDate | amLocale:'RU' | amDateFormat:'MMMM YYYY' }}</td>
-                        <td *ngIf="price.endDate">{{price.endDate | amLocale:'RU' | amDateFormat:'MMMM YYYY' }}</td>
-                        <td *ngIf="!price.endDate"></td>
-                        <td>{{price.price}}</td>
-                    </tr>
+                <tr *ngFor="let price of service.prices">
+                    <td>{{price.startDate | amLocale:'RU' | amDateFormat:'MMMM YYYY' }}</td>
+                    <td *ngIf="price.endDate">{{price.endDate | amLocale:'RU' | amDateFormat:'MMMM YYYY' }}</td>
+                    <td *ngIf="!price.endDate"></td>
+                    <td>{{price.price}}</td>
+                </tr>
                 </tbody>
             </table>
         </div>

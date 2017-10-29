@@ -22,8 +22,7 @@ namespace Domovoi.MainSite.Controllers
         [HttpGet]
         public IEnumerable<Consumer> Get()
         {
-            var a = _dbContext.Consumers.ToArray();
-            return a;
+            return _dbContext.Consumers.ToArray();
         }
 
         // GET api/values/5

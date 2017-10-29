@@ -1,31 +1,17 @@
-﻿import { Component, Inject } from "@angular/core";
-import { Http } from "@angular/http";
+﻿import { Component, OnInit } from "@angular/core";
+import { ServicesService } from "../../services/services.service"
+import { IService } from "../../models/service"
 
 @Component({
     selector: "services",
     templateUrl: "./services.component.html"
 })
-export class ServicesComponent {
+export class ServicesComponent implements OnInit {
     services: IService[];
 
-    constructor(http: Http, @Inject("BASE_URL") baseUrl: string) {
-        http.get(baseUrl + "api/Services").subscribe(result => {
-                this.services = result.json() as IService[];
-            },
-            error => console.error(error));
+    constructor(private readonly apiService: ServicesService) {}
+
+    ngOnInit(): void {
+        this.apiService.getAll().then(data => this.services = data);
     }
-}
-
-interface IService {
-    id: number;
-    name: string;
-    prices: IServicePrice[];
-}
-
-interface IServicePrice {
-    id: number;
-    service: IService;
-    startDate: Date;
-    endDate: Date;
-    price: number;
 }

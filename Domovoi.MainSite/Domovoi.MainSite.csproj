@@ -22,7 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\app\models\service.ts" />
+    <None Remove="ClientApp\app\models\ServicePrice.ts" />
+    <None Remove="ClientApp\app\services\consumer.service.ts" />
     <None Remove="ClientApp\app\components\consumers\consumers.component.ts" />
+    <None Remove="ClientApp\app\models\consumer.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,7 +34,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\models\service.ts" />
+    <TypeScriptCompile Include="ClientApp\app\models\servicePrice.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\consumer.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\consumers\consumers.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\models\consumer.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\serviceBase.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\services.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
