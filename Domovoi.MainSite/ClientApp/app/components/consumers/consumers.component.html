@@ -4,5 +4,5 @@
     <em>Загружаю...</em>
 </p>
 <div *ngIf="consumers" class="list-group">
-    <a *ngFor="let consumer of consumers" href="#" class="list-group-item">{{ consumer.lastName }} {{ consumer.firstName }} {{ consumer.middleName }}</a>
+    <a *ngFor="let consumer of consumers" [routerLink]="['/invoices', consumer.id]" class="list-group-item">{{ consumer.lastName }} {{ consumer.firstName }} {{ consumer.middleName }}</a>
 </div> 

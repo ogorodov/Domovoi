@@ -14,28 +14,15 @@ export class ConsumerService extends ServiceBase {
     }
 
     getAll(): Promise<IConsumer[]> {
-        console.info(this.apiUrl);
-
         return this.http.get(this.apiUrl)
             .toPromise()
             .then(response => response.json() as IConsumer[])
             .catch(this.handleError);
     }
+
+    getById(id: number | string): Promise<IConsumer> {
+        return this.http.get(`${this.apiUrl}/${id}`).toPromise()
+            .then(response => response.json() as IConsumer)
+            .catch(this.handleError);
+    }
 }
-
-//@Injectable()
-//export class ConsumerService {
-//    constructor(private readonly http: Http, @Inject("BASE_URL") private readonly baseUrl: string) { }
-
-//    getAll(): Promise<IConsumer[]> {
-//        return this.http.get(this.baseUrl + "api/Consumer")
-//            .toPromise()
-//            .then(response => response.json() as IConsumer[])
-//            .catch(this.handleError);
-//    }
-
-//    private handleError(error: any): Promise<any> {
-//        console.error("An error occurred", error); // for demo purposes only
-//        return Promise.reject(error.message || error);
-//    }
-//}

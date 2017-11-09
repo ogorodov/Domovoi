@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domovoi.DAL.Models
 {
@@ -8,5 +9,7 @@ namespace Domovoi.DAL.Models
 
         [Required]
         public Consumer Consumer { get; set; }
+
+        public List<InvoiceItem> Items { get; set; }
     }
 }

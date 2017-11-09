@@ -7,6 +7,7 @@ import { MomentModule} from "angular2-moment";
 
 import { ConsumerService } from "./services/consumer.service"
 import { ServicesService } from "./services/services.service"
+import { InvoicesService } from "./services/invoices.service"
 
 import { AppComponent } from "./components/app/app.component";
 import { NavMenuComponent } from "./components/navmenu/navmenu.component";
@@ -14,6 +15,7 @@ import { HomeComponent } from "./components/home/home.component";
 import { CounterComponent } from "./components/counter/counter.component";
 import { ServicesComponent } from "./components/services/services.component";
 import { ConsumersComponent } from "./components/consumers/consumers.component";
+import { InvoicesComponent } from "./components/invoices/invoices.component";
 
 @NgModule({
     declarations: [
@@ -22,7 +24,8 @@ import { ConsumersComponent } from "./components/consumers/consumers.component";
         CounterComponent,
         HomeComponent,
         ServicesComponent,
-        ConsumersComponent
+        ConsumersComponent,
+        InvoicesComponent
     ],
     imports: [
         CommonModule,
@@ -37,12 +40,14 @@ import { ConsumersComponent } from "./components/consumers/consumers.component";
             { path: "counter", component: CounterComponent },
             { path: "services", component: ServicesComponent },
             { path: "consumers", component: ConsumersComponent },
+            { path: "invoices/:id", component: InvoicesComponent },
             { path: "**", redirectTo: "home" }
         ])
     ],
     providers: [
         ConsumerService,
-        ServicesService
+        ServicesService,
+        InvoicesService
     ]
 })
 export class AppModuleShared {

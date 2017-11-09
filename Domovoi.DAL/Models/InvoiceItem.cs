@@ -7,5 +7,7 @@
 
         public int ServicePriceId { get; set; }
         public ServicePrice ServicePrice { get; set; }
+
+        public byte Quantity { get; set; }
     }
 }
