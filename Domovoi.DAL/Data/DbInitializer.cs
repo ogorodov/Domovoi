@@ -11,8 +11,8 @@ namespace Domovoi.DAL.Data
         {
             if (!dbContext.Consumers.Any())
                 dbContext.Consumers.AddRange(
-                    new Consumer {FirstName = "Константин", MiddleName = "Сергеевич", LastName = "Огородов"},
-                    new Consumer {FirstName = "Анна", MiddleName = "Владимировна", LastName = "Огородова"});
+                    new Consumer {FirstName = "Константин", MiddleName = "Сергеевич", LastName = "Огородов", JoinDate = new DateTime(1981, 6, 10)},
+                    new Consumer {FirstName = "Анна", MiddleName = "Владимировна", LastName = "Огородова", JoinDate = new DateTime(1983, 8, 21)});
 
             if (!dbContext.Services.Any())
             {

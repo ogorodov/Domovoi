@@ -1,10 +1,32 @@
-﻿<h3 class="center-block">Счета</h3>
+﻿<h1 class="center-block">Счета</h1>
 
-<h1 *ngIf="consumer">{{ consumer.lastName }} {{ consumer.firstName }} {{ consumer.middleName }}</h1>
+<div>
+    <h4 *ngIf="consumer">{{ consumer.lastName }} {{ consumer.firstName }} {{ consumer.middleName }}</h4>
+    <button class="btn" type="button" (click)="calculate()" [disabled]="isCalculating">Пересчёт</button>
+</div>
 
-<!--<p *ngIf="!consumers">
-    <em>Загружаю...</em>
-</p>
-<div *ngIf="consumers" class="list-group">
-    <a *ngFor="let consumer of consumers" href="#" class="list-group-item">{{ consumer.lastName }} {{ consumer.firstName }} {{ consumer.middleName }}</a>
-</div>--> 
+<div class="panel-group" id="accordion">
+    <div class="panel panel-default" *ngFor="let invoice of invoices">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{invoice.id}}">
+                    {{invoice.date}}<span class="badge">{{invoice.myTotal}}</span>
+                </a>
+            </h4>
+        </div>
+        <div id="collapse{{invoice.id}}" class="panel-collapse collapse">
+            <div class="panel-body">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                commodo consequat.
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul class="pagination" *ngIf="pages">
+    <li *ngFor="let page of pages" [class.active]="page === activePage">
+        <a (click)="goToPage(page);">{{page}}</a>
+    </li>
+</ul>

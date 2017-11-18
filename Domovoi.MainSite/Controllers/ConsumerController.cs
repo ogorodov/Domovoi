@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Domovoi.DAL.Data;
 using Domovoi.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Domovoi.MainSite.Controllers
 {
-    [Route("api/[controller]")]
     public sealed class ConsumerController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
@@ -18,36 +16,79 @@ namespace Domovoi.MainSite.Controllers
             _dbContext = dbContext;
         }
 
-        // GET: api/values
         [HttpGet]
+        [Route("api/[controller]")]
         public IEnumerable<Consumer> Get()
         {
             return _dbContext.Consumers.ToArray();
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
+        [Route("api/[controller]/{id}")]
         public Consumer Get(int id)
         {
             return _dbContext.Consumers.SingleOrDefault(o => o.Id == id);
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet]
+        [Route("api/[controller]/{consumerId}/Calculate")]
+        public void Calculate(int consumerId)
         {
+            var consumer = _dbContext.Consumers.Single(o => o.Id == consumerId);
+            var startDate = _dbContext.Invoices.Where(o => o.Consumer.Id == consumerId).DefaultIfEmpty().Max(o => o.Date);
+
+            if (startDate == DateTime.MinValue)
+                startDate = consumer.JoinDate.AddDays(1 - consumer.JoinDate.Day);
+
+            var endDate = DateTime.Now.Date;
+            endDate = endDate.AddDays(1 - endDate.Day);
+
+            if (endDate <= startDate)
+                return;
+
+            var totalMonths = (endDate.Year - startDate.Year) * 12 + (endDate.Month - startDate.Month);
+
+            var servicePrices = _dbContext.ServicePrices.Where(o =>
+                o.StartDate <= endDate && (o.EndDate >= startDate || !o.EndDate.HasValue)).ToArray();
+
+            var invoices = new List<Invoice>(totalMonths);
+
+            for (var i = 0; i < totalMonths; i++)
+            {
+                var invoice = new Invoice
+                {
+                    Consumer = consumer,
+                    Date = startDate.AddMonths(i)
+                };
+
+                invoice.Items = servicePrices.Where(o => o.StartDate <= invoice.Date && (!o.EndDate.HasValue || o.EndDate >= invoice.Date))
+                    .Select(o => new InvoiceItem {Invoice = invoice, ServicePrice = o, Quantity = 1}).ToList();
+
+                if (invoice.Items.Count > 0)
+                    invoices.Add(invoice);
+            }
+
+            _dbContext.Invoices.AddRange(invoices);
+            _dbContext.SaveChanges();
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //[HttpPost]
+        //public void Post([FromBody] string value)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

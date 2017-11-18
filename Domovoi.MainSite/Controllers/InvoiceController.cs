@@ -18,12 +18,25 @@ namespace Domovoi.MainSite.Controllers
         }
 
         [HttpGet]
-        [Route("api/consumer/{consumerId}/invoice")]
-        public IEnumerable<Invoice> GetForConsumer(int consumerId)
+        [Route("api/consumer/{consumerId}/invoice/{pageSize?}/{page?}")]
+        public IEnumerable<Invoice> GetForConsumer(int consumerId, int pageSize = 12, int page = 1)
         {
             return _dbContext.Invoices
-                .Include(o=>o.Items)
-                .Where(o => o.Consumer.Id == consumerId).ToArray();
+                .Include(o => o.Items)
+                .ThenInclude(o => o.ServicePrice)
+                //.ThenInclude(o => o.Service)
+                .Where(o => o.Consumer.Id == consumerId)
+                .OrderByDescending(o => o.Date)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToArray();
+        }
+
+        [HttpGet]
+        [Route("api/consumer/{consumerId}/invoiceCount")]
+        public int ConsumerInvoiceCount(int consumerId)
+        {
+            return _dbContext.Invoices.Count(o => o.Consumer.Id == consumerId);
         }
     }
 }

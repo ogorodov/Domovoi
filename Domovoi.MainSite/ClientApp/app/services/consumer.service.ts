@@ -25,4 +25,9 @@ export class ConsumerService extends ServiceBase {
             .then(response => response.json() as IConsumer)
             .catch(this.handleError);
     }
+
+    calculate(id: number | string): Promise<void> {
+        return this.http.get(`${this.apiUrl}/${id}/Calculate`).toPromise()
+            .catch(this.handleError);
+    }
 }

@@ -1,7 +1,8 @@
-﻿import { IInvoice } from "./invoice"
+﻿import { Invoice } from "./invoice"
 import { IServicePrice } from "./servicePrice"
 
 export interface IInvoiceItem {
-    invoice: IInvoice;
+    //invoice: Invoice;
     servicePrice: IServicePrice;
+    quantity: number;
 }

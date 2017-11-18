@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domovoi.DAL.Models
 {
@@ -14,5 +16,8 @@ namespace Domovoi.DAL.Models
 
         [MaxLength(50)]
         public string MiddleName { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime JoinDate { get; set; }
     }
 }
