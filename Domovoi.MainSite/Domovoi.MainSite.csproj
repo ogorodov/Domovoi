@@ -37,6 +37,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\components\invoices\invoices.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\models\IDtoBase.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\service.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\servicePrice.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\consumer.service.ts" />
@@ -51,6 +52,10 @@
     <None Update="ClientApp\app\components\services\services.component.ts">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\app\dto\" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

@@ -3,7 +3,8 @@ import { Inject } from "@angular/core";
 import { Http } from "@angular/http";
 import { ServiceBase } from "./serviceBase"
 import "rxjs/add/operator/toPromise"
-import { Invoice } from "../models/invoice";
+import { IDtoBase } from "../models/IDtoBase";
+import { IInvoice } from "../models/invoice";
 
 @Injectable()
 export class InvoicesService extends ServiceBase {
@@ -13,12 +14,21 @@ export class InvoicesService extends ServiceBase {
         super(http, baseUrl);
     }
 
-    getForConsumer(consumerId: string | number, pageSize: number, page: number): Promise<Invoice[]> {
+    getForConsumer(consumerId: string | number, pageSize: number, page: number): Promise<IInvoice[]> {
         return this.http.get(`api/consumer/${consumerId}/invoice/${pageSize}/${page}`)
             .toPromise()
             .then(response => {
+                var invoices = response.json() as IInvoice[];
+
+                const catalog = new Array<IDtoBase>();
+
                 debugger;
-                var invoices = response.json() as Invoice[];
+
+                this.restoreReferencesforArray(invoices, catalog);
+
+                //for(const item of invoices)
+                //this.restoreReferences(invoices, catalog);
+
                 var i1 = JSON.parse(response.text());
                 for (let o of invoices)
                     for (let i of o.items)
@@ -45,5 +55,109 @@ export class InvoicesService extends ServiceBase {
             .toPromise()
             .then(response => parseInt(response.text()))
             .catch(this.handleError);
+    }
+
+    restoreReferencesforArray(array: Array<IDtoBase>, catalog: IDtoBase[]): void {
+        for (const item of array)
+            if (Object.prototype.toString.apply(item) === "[object Object]")
+                this.restoreReferencesforObject(item, catalog);
+    }
+
+    restoreReferencesforObject(obj: IDtoBase, catalog: IDtoBase[]): void {
+        for (const [key, value] of Object.entries(obj)) {
+            if (key === "$id") {
+                catalog[value] = obj;
+            } else {
+                switch (Object.prototype.toString.apply(value)) {
+                    case "[object Object]":
+                    {
+                        if (value.$id) {
+                            this.restoreReferencesforObject(value, catalog);
+                        } else if (value.$ref) {
+                            this.setPropertyValue(obj, key, catalog[value.$ref]);
+                        }
+                        break;
+                    }
+                    case "[object Array]":
+                    {
+                        this.restoreReferencesforArray(value, catalog);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    //restoreReferences(obj: any, catalog: IDtoBase[]): void {
+    //    debugger;
+
+    //    if (Object.prototype.toString.apply(obj) === "object") {
+
+    //    } else if (Object.prototype.toString.apply(obj) === "[object Array]") {
+
+    //    }
+
+    //    //if (Object.prototype.toString.apply(obj) === "[object Array]") {
+    //    //    for (const item of obj) {
+    //    //        this.restoreReferences(item, catalog);
+    //    //    }
+    //    //} else if (obj && typeof obj === "object") {
+    //    //    if (key === "$id") {
+    //    //        catalog[value] = 
+    //    //    }
+
+    //    for (const [key, value] of Object.entries(obj)) {
+    //        if (key === "$id") {
+    //            catalog[value] = obj;
+    //        }
+    //        else if (key === "$ref") {
+    //            obj[key] = catalog[value];
+    //        }
+    //        else if (Object.prototype.toString.apply(value) === "[object Array]") {
+    //            for (const item of value) {
+    //                this.restoreReferences(item, catalog);
+    //            }
+    //        }
+    //    }
+    //    //type t1 = keyof IDtoBase;
+
+    //    //const properties = Object.getOwnPropertyNames(obj);
+
+    //    //for (const propertyName of properties) {
+    //    //    const value = this.getPropertyValue(obj, propertyName);
+    //    //}
+
+
+    //    //const names = Object.getOwnPropertyNames(obj);
+    //    //object.getOwnEnumerableProperties()
+
+
+    //    //if (Object.prototype.toString.apply(obj) === "[object Array]") {
+    //    //    for (const item of obj)
+    //    //        this.restoreReferences();
+    //    //} else {
+
+    //    //}
+
+    //    //let t1 = Object.prototype.toString.apply(obj);
+    //    //let t2 = Object.prototype.toString.apply( (<IDtoBase[]>obj)[0]);
+
+
+    //    //if (obj instanceof IDtoBase) {
+
+    //    //}
+
+    //    //for (const item of obj) {
+    //    //    if (item.$id !== undefined)
+    //    //        catalog[item.$id] = item;
+    //    //}
+    //}
+
+    getPropertyValue<T, TK extends keyof T>(obj: T, key: TK) {
+        return obj[key];
+    }
+
+    setPropertyValue(obj: any, key: string, newValue: any) {
+        obj[key] = newValue;
     }
 }
