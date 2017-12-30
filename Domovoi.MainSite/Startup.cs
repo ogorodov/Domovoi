@@ -22,7 +22,11 @@ namespace Domovoi.MainSite
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
-                .AddJsonOptions(options => options.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects);
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
+                    options.SerializerSettings.TypeNameHandling = TypeNameHandling.Objects;
+                });
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));

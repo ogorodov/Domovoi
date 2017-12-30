@@ -23,12 +23,12 @@
 
   <ItemGroup>
     <None Remove="ClientApp\app\components\invoices\invoices.component.ts" />
-    <None Remove="ClientApp\app\models\service.ts" />
     <None Remove="ClientApp\app\models\ServicePrice.ts" />
     <None Remove="ClientApp\app\services\consumer.service.ts" />
     <None Remove="ClientApp\app\components\consumers\consumers.component.ts" />
-    <None Remove="ClientApp\app\models\consumer.ts" />
     <None Remove="ClientApp\app\services\invoices.service.ts" />
+    <None Remove="ClientApp\app\services\typeChecker.ts" />
+    <None Remove="ClientApp\app\services\TypeConverter.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,25 +37,24 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\components\invoices\invoices.component.ts" />
-    <TypeScriptCompile Include="ClientApp\app\models\IDtoBase.ts" />
-    <TypeScriptCompile Include="ClientApp\app\models\service.ts" />
-    <TypeScriptCompile Include="ClientApp\app\models\servicePrice.ts" />
+    <TypeScriptCompile Include="ClientApp\app\dto\IDtoBase.ts" />
+    <TypeScriptCompile Include="ClientApp\app\dto\IService.ts" />
+    <TypeScriptCompile Include="ClientApp\app\dto\IServicePrice.ts" />
+    <TypeScriptCompile Include="ClientApp\app\models\Invoice.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\consumer.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\consumers\consumers.component.ts" />
-    <TypeScriptCompile Include="ClientApp\app\models\consumer.ts" />
+    <TypeScriptCompile Include="ClientApp\app\dto\IConsumer.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\invoices.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\serviceBase.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\services.service.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\TypeChecker.service.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\TypeConverter.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="ClientApp\app\components\services\services.component.ts">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ClientApp\app\dto\" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

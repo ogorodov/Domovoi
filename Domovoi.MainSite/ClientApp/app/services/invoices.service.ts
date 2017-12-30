@@ -3,14 +3,15 @@ import { Inject } from "@angular/core";
 import { Http } from "@angular/http";
 import { ServiceBase } from "./serviceBase"
 import "rxjs/add/operator/toPromise"
-import { IDtoBase } from "../models/IDtoBase";
-import { IInvoice } from "../models/invoice";
+import { IDtoBase } from "../dto/IDtoBase";
+import { IInvoice } from "../dto/IInvoice";
+import { TypeCheckerService } from "./TypeChecker.service";
 
 @Injectable()
 export class InvoicesService extends ServiceBase {
     get controllerName(): string { return "Invoice"; }
 
-    constructor(http: Http, @Inject("BASE_URL") baseUrl: string) {
+    constructor(http: Http, @Inject("BASE_URL") baseUrl: string, private readonly typeChecker: TypeCheckerService) {
         super(http, baseUrl);
     }
 
@@ -20,11 +21,9 @@ export class InvoicesService extends ServiceBase {
             .then(response => {
                 var invoices = response.json() as IInvoice[];
 
-                const catalog = new Array<IDtoBase>();
-
                 debugger;
 
-                this.restoreReferencesforArray(invoices, catalog);
+                this.restoreReferencesforArray(invoices, new Map<number, object>());
 
                 //for(const item of invoices)
                 //this.restoreReferences(invoices, catalog);
@@ -57,32 +56,32 @@ export class InvoicesService extends ServiceBase {
             .catch(this.handleError);
     }
 
-    restoreReferencesforArray(array: Array<IDtoBase>, catalog: IDtoBase[]): void {
+    restoreReferencesforArray(array: Array<IDtoBase>, map: Map<number, object>): void {
         for (const item of array)
             if (Object.prototype.toString.apply(item) === "[object Object]")
-                this.restoreReferencesforObject(item, catalog);
+                this.restoreReferencesforObject(item, map);
     }
 
-    restoreReferencesforObject(obj: IDtoBase, catalog: IDtoBase[]): void {
+    restoreReferencesforObject(obj: IDtoBase, map: Map<number, object>, ): void {
         for (const [key, value] of Object.entries(obj)) {
             if (key === "$id") {
-                catalog[value] = obj;
+                map.set(value, obj);
             } else {
                 switch (Object.prototype.toString.apply(value)) {
-                    case "[object Object]":
-                    {
-                        if (value.$id) {
-                            this.restoreReferencesforObject(value, catalog);
-                        } else if (value.$ref) {
-                            this.setPropertyValue(obj, key, catalog[value.$ref]);
-                        }
-                        break;
+                case "[object Object]":
+                {
+                    if (value.$id) {
+                        this.restoreReferencesforObject(value, map);
+                    } else if (value.$ref) {
+                        this.setPropertyValue(obj, key, map.get(value.$ref));
                     }
-                    case "[object Array]":
-                    {
-                        this.restoreReferencesforArray(value, catalog);
-                        break;
-                    }
+                    break;
+                }
+                case "[object Array]":
+                {
+                    this.restoreReferencesforArray(value, map);
+                    break;
+                }
                 }
             }
         }

@@ -1,6 +1,6 @@
 ﻿import {Component, OnInit} from "@angular/core";
 import {ConsumerService} from "../../services/consumer.service";
-import {IConsumer} from "../../models/consumer";
+import {IConsumer} from "../../dto/IConsumer";
 
 @Component({
     selector: "consumers",

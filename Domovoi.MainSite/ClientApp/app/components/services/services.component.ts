@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from "@angular/core";
 import { ServicesService } from "../../services/services.service"
-import { IService } from "../../models/service"
+import { IService } from "../../dto/IService"
 
 @Component({
     selector: "services",

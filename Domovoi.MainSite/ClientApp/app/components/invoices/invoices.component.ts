@@ -2,8 +2,8 @@
 import { Router, ActivatedRoute } from "@angular/router";
 import { ConsumerService } from "../../services/consumer.service";
 import { InvoicesService } from "../../services/invoices.service";
-import { IConsumer } from "../../models/consumer";
-import { IInvoice } from "../../models/invoice";
+import { IConsumer } from "../../dto/IConsumer";
+import { IInvoice } from "../../dto/IInvoice";
 import "rxjs/add/operator/switchMap";
 
 @Component({

@@ -3,7 +3,7 @@ import { Inject } from "@angular/core";
 import { Http } from "@angular/http";
 import { ServiceBase } from "./serviceBase"
 import "rxjs/add/operator/toPromise"
-import { IService } from "../models/service";
+import { IService } from "../dto/IService";
 
 @Injectable()
 export class ServicesService extends ServiceBase {
