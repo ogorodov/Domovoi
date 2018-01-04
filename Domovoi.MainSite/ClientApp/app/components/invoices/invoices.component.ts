@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
+import { DatePipe } from '@angular/common';
 import { ConsumerService } from "../../services/consumer.service";
 import { InvoicesService } from "../../services/invoices.service";
 import { IConsumer } from "../../dto/IConsumer";
@@ -63,5 +64,12 @@ export class InvoicesComponent implements OnInit {
                 for (let i = 0; i < pagesCount; i++)
                     this.pages[i] = i + 1;
             });
+    }
+
+    calculateInvoiceTotal(invoice: IInvoice): number {
+        let result: number = 0;
+        for (let item of invoice.items)
+            result = result + item.quantity * item.servicePrice.price;
+        return result;
     }
 }

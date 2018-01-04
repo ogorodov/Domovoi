@@ -11,8 +11,8 @@
             <table class="table">
                 <tbody>
                 <tr *ngFor="let price of service.prices">
-                    <td>{{price.startDate | amLocale:'RU' | amDateFormat:'MMMM YYYY' }}</td>
-                    <td *ngIf="price.endDate">{{price.endDate | amLocale:'RU' | amDateFormat:'MMMM YYYY' }}</td>
+                    <td>{{price.startDate | date:'MMMM yyyy' }}</td>
+                    <td *ngIf="price.endDate">{{price.endDate | date:'MMMM yyyy' }}</td>
                     <td *ngIf="!price.endDate"></td>
                     <td>{{price.price}}</td>
                 </tr>

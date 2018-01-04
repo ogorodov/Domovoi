@@ -8,7 +8,6 @@ import { MomentModule} from "angular2-moment";
 import { ConsumerService } from "./services/consumer.service"
 import { ServicesService } from "./services/services.service"
 import { InvoicesService } from "./services/invoices.service"
-import { TypeCheckerService } from "./services/TypeChecker.service"
 
 import { AppComponent } from "./components/app/app.component";
 import { NavMenuComponent } from "./components/navmenu/navmenu.component";
@@ -46,7 +45,6 @@ import { InvoicesComponent } from "./components/invoices/invoices.component";
         ])
     ],
     providers: [
-        TypeCheckerService,
         ConsumerService,
         ServicesService,
         InvoicesService

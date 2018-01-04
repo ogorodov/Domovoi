@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <None Remove="ClientApp\app\components\invoices\invoices.component.ts" />
-    <None Remove="ClientApp\app\models\ServicePrice.ts" />
     <None Remove="ClientApp\app\services\consumer.service.ts" />
     <None Remove="ClientApp\app\components\consumers\consumers.component.ts" />
     <None Remove="ClientApp\app\services\invoices.service.ts" />
@@ -40,7 +39,6 @@
     <TypeScriptCompile Include="ClientApp\app\dto\IDtoBase.ts" />
     <TypeScriptCompile Include="ClientApp\app\dto\IService.ts" />
     <TypeScriptCompile Include="ClientApp\app\dto\IServicePrice.ts" />
-    <TypeScriptCompile Include="ClientApp\app\models\Invoice.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\consumer.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\consumers\consumers.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\dto\IConsumer.ts" />
@@ -48,7 +46,6 @@
     <TypeScriptCompile Include="ClientApp\app\services\serviceBase.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\services.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\TypeChecker.service.ts" />
-    <TypeScriptCompile Include="ClientApp\app\services\TypeConverter.service.ts" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,8 +1,8 @@
 ﻿<h1 class="center-block">Счета</h1>
 
-<div>
-    <h4 *ngIf="consumer">{{ consumer.lastName }} {{ consumer.firstName }} {{ consumer.middleName }}</h4>
-    <button class="btn" type="button" (click)="calculate()" [disabled]="isCalculating">Пересчёт</button>
+<div style="margin-bottom: 1em">
+    <span class="lead" *ngIf="consumer">{{ consumer.lastName }} {{ consumer.firstName }} {{ consumer.middleName }}</span>
+    <button class="btn" style="margin-left: 1em" type="button" (click)="calculate()" [disabled]="isCalculating">Пересчёт</button>
 </div>
 
 <div class="panel-group" id="accordion">
@@ -10,7 +10,7 @@
         <div class="panel-heading">
             <h4 class="panel-title">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{invoice.id}}">
-                    {{invoice.date}}<span class="badge">{{invoice.myTotal}}</span>
+                    {{invoice.date | date:'MMMM yyyy'}} --- {{calculateInvoiceTotal(invoice)}}
                 </a>
             </h4>
         </div>
