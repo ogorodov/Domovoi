@@ -14,13 +14,25 @@
                 </a>
             </h4>
         </div>
-        <div id="collapse{{invoice.id}}" class="panel-collapse collapse">
-            <div class="panel-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat.
-            </div>
+        <div id="collapse{{invoice.id}}" class="panel-collapse collapse" [ngClass]="{'in': invoice.id === firstInvoiceId}">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Наименование услуги</th>
+                        <th>Колличество</th>
+                        <th>Цена</th>
+                        <th>Сумма</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let invoiceItem of invoice.items">
+                    <td>{{invoiceItem.servicePrice.service.name }}</td>
+                    <td>{{ invoiceItem.quantity }}</td>
+                    <td>{{ invoiceItem.servicePrice.price }}</td>
+                    <td>{{ invoiceItem.servicePrice.price * invoiceItem.quantity}}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

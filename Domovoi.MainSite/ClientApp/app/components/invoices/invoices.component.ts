@@ -53,6 +53,17 @@ export class InvoicesComponent implements OnInit {
         this.loadInvoices();
     }
 
+    calculateInvoiceTotal(invoice: IInvoice): number {
+        let result: number = 0;
+        for (let item of invoice.items)
+            result = result + item.quantity * item.servicePrice.price;
+        return result;
+    }
+
+    get firstInvoiceId(): number {
+        return this.invoices[0].id;
+    }
+
     private loadInvoices(): void {
         this.invoicesService.getForConsumer(this.consumer.id, this.pageSize, this.activePage)
             .then(invoices => this.invoices = invoices);
@@ -64,12 +75,5 @@ export class InvoicesComponent implements OnInit {
                 for (let i = 0; i < pagesCount; i++)
                     this.pages[i] = i + 1;
             });
-    }
-
-    calculateInvoiceTotal(invoice: IInvoice): number {
-        let result: number = 0;
-        for (let item of invoice.items)
-            result = result + item.quantity * item.servicePrice.price;
-        return result;
     }
 }

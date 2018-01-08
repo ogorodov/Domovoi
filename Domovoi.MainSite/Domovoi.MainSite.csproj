@@ -23,9 +23,12 @@
 
   <ItemGroup>
     <None Remove="ClientApp\app\components\invoices\invoices.component.ts" />
+    <None Remove="ClientApp\app\components\Payments\payments.component.ts" />
+    <None Remove="ClientApp\app\dto\IPayment.ts" />
     <None Remove="ClientApp\app\services\consumer.service.ts" />
     <None Remove="ClientApp\app\components\consumers\consumers.component.ts" />
     <None Remove="ClientApp\app\services\invoices.service.ts" />
+    <None Remove="ClientApp\app\services\payments.service.ts" />
     <None Remove="ClientApp\app\services\typeChecker.ts" />
     <None Remove="ClientApp\app\services\TypeConverter.service.ts" />
   </ItemGroup>
@@ -36,13 +39,16 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\components\invoices\invoices.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\Payments\payments.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\dto\IDtoBase.ts" />
+    <TypeScriptCompile Include="ClientApp\app\dto\IPayment.ts" />
     <TypeScriptCompile Include="ClientApp\app\dto\IService.ts" />
     <TypeScriptCompile Include="ClientApp\app\dto\IServicePrice.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\consumer.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\consumers\consumers.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\dto\IConsumer.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\invoices.service.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\payments.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\serviceBase.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\services.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\TypeChecker.service.ts" />

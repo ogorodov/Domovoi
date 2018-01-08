@@ -24,7 +24,7 @@ namespace Domovoi.MainSite.Controllers
             return _dbContext.Invoices
                 .Include(o => o.Items)
                 .ThenInclude(o => o.ServicePrice)
-                //.ThenInclude(o => o.Service)
+                .ThenInclude(o => o.Service)
                 .Where(o => o.Consumer.Id == consumerId)
                 .OrderByDescending(o => o.Date)
                 .Skip((page - 1) * pageSize)
