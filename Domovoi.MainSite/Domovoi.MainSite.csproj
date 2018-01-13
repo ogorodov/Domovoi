@@ -25,6 +25,7 @@
     <None Remove="ClientApp\app\components\invoices\invoices.component.ts" />
     <None Remove="ClientApp\app\components\Payments\payments.component.ts" />
     <None Remove="ClientApp\app\dto\IPayment.ts" />
+    <None Remove="ClientApp\app\models\Payment.ts" />
     <None Remove="ClientApp\app\services\consumer.service.ts" />
     <None Remove="ClientApp\app\components\consumers\consumers.component.ts" />
     <None Remove="ClientApp\app\services\invoices.service.ts" />
@@ -44,6 +45,7 @@
     <TypeScriptCompile Include="ClientApp\app\dto\IPayment.ts" />
     <TypeScriptCompile Include="ClientApp\app\dto\IService.ts" />
     <TypeScriptCompile Include="ClientApp\app\dto\IServicePrice.ts" />
+    <TypeScriptCompile Include="ClientApp\app\models\Payment.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\consumer.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\consumers\consumers.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\dto\IConsumer.ts" />

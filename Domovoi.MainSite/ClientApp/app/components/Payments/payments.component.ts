@@ -20,7 +20,9 @@ export class PaymentsComponent implements OnInit {
 
     constructor(private readonly route: ActivatedRoute,
         private readonly router: Router,
-        private readonly paymentsService: PaymentsService) { }
+        private readonly paymentsService: PaymentsService) {
+        this.model = new Payment(new Date(), 0);
+    }
 
     ngOnInit(): void {
         const id = this.route.snapshot.paramMap.get("id");

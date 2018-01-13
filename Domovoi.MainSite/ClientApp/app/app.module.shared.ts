@@ -4,6 +4,8 @@ import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
 
+import { A2Edatetimepicker } from 'ng4-eonasdan-datetimepicker-hirwan';
+
 import { ConsumerService } from "./services/consumer.service"
 import { InvoicesService } from "./services/invoices.service"
 import { PaymentsService } from "./services/payments.service"
@@ -33,6 +35,8 @@ import { ServicesComponent } from "./components/services/services.component";
         CommonModule,
         HttpModule,
         FormsModule,
+
+        A2Edatetimepicker,
 
         // Маршрутизация
         RouterModule.forRoot([
