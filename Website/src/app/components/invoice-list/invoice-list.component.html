@@ -1,0 +1,55 @@
+<h1 class="center-block">Счета</h1>
+
+<p *ngIf="!invoices">
+  <em>Загружаю...</em>
+</p>
+<p *ngIf="invoices && invoices.length === 0">
+  <em>Отсутствуют</em>
+</p>
+
+<div style="margin-bottom: 1em">
+  <span class="lead" *ngIf="consumer">{{ consumer.lastName }} {{ consumer.firstName }} {{ consumer.middleName }}</span>
+  <button class="btn" style="margin-left: 1em" type="button" (click)="calculate()" [disabled]="isCalculating">Пересчёт</button>
+</div>
+
+<div id="accordion">
+  <div class="card" *ngFor="let invoice of invoices">
+    <div class="card-header" id="heading{{invoice.id}}">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" attr.data-target="#collapse{{invoice.id}}" attr.aria-expanded="{{invoice.id === invoices[0].id}}" attr.aria-controls="collapse{{invoice.id}}">
+          {{invoice.date | date:'LLLL yyyy'}} --- {{calculateInvoiceTotal(invoice)}}
+        </button>
+      </h5>
+    </div>
+    <div id="collapse{{invoice.id}}" class="collapse" [ngClass]="{show : invoice.id === invoices[0].id}" attr.aria-labelledby="heading{{invoice.id}}" data-parent="#accordion">
+      <div class="card-body">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Наименование услуги</th>
+            <th>Колличество</th>
+            <th>Цена</th>
+            <th>Сумма</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let invoiceItem of invoice.items">
+            <td>{{invoiceItem.servicePrice.service.name }}</td>
+            <td>{{ invoiceItem.quantity }}</td>
+            <td>{{ invoiceItem.servicePrice.price }}</td>
+            <td>{{ invoiceItem.servicePrice.price * invoiceItem.quantity}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav aria-label="pagination">
+  <ul class="pagination justify-content-center m-4" *ngIf="pages">
+    <li class="page-item" [class.active]="page === activePage" *ngFor="let page of pages">
+      <a class="page-link" (click)="goToPage(page);">{{page}}</a>
+    </li>
+  </ul>
+</nav>

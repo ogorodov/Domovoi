@@ -1,0 +1,27 @@
+<h3>Услуги</h3>
+
+<div id="accordion" *ngIf="services">
+  <div class="card" *ngFor="let service of services">
+    <div class="card-header" id="heading{{service.id}}">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" attr.data-target="#collapse{{service.id}}" attr.aria-expanded="{{service.id === services[0].id}}" attr.aria-controls="collapse{{service.id}}">
+          {{service.name}}
+        </button>
+      </h5>
+    </div>
+    <div id="collapse{{service.id}}" class="collapse" [ngClass]="{show : service.id === services[0].id}" attr.aria-labelledby="heading{{service.id}}" data-parent="#accordion">
+      <div class="card-body">
+        <table class="table card-body">
+          <tbody>
+          <tr *ngFor="let price of service.prices">
+            <td>{{price.startDate | date:'LLLL yyyy' }}</td>
+            <td *ngIf="price.endDate">{{price.endDate | date:'LLLL yyyy' }}</td>
+            <td *ngIf="!price.endDate"></td>
+            <td>{{price.price}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
