@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { Payment } from "../../dto/payment"
 import { Payment as PaymentModel } from "../../models/payment"
 import { PaymentService } from "../../services/payment.service";
+
+declare var $: any;
 
 @Component({
   selector: 'app-payment-list',
@@ -10,6 +12,8 @@ import { PaymentService } from "../../services/payment.service";
   styleUrls: ['./payment-list.component.css']
 })
 export class PaymentListComponent implements OnInit {
+  @ViewChild("newPaiment") newPaimentControl: ElementRef;
+
   private readonly pageSize: number = 12;
   private consumerId: number;
 
@@ -22,7 +26,6 @@ export class PaymentListComponent implements OnInit {
   constructor(private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly paymentsService: PaymentService) {
-    this.model = new PaymentModel(new Date(), 0);
   }
 
   ngOnInit() {
@@ -30,7 +33,17 @@ export class PaymentListComponent implements OnInit {
 
     if (!id)
       throw new Error("Identifier is null");
+
     this.consumerId = parseInt(id);
+    this.model = new PaymentModel(this.consumerId, new Date(), 0);
+
+    this.loadEntities();
+  }
+
+  async onSubmit() {
+    await this.paymentsService.post(this.model);
+    this.collapseNewPaimentControl();
+    this.model = new PaymentModel(this.consumerId, new Date(), 0);
     this.loadEntities();
   }
 
@@ -47,8 +60,7 @@ export class PaymentListComponent implements OnInit {
       });
   }
 
-  // TODO: Remove this when we're done
-  get diagnostic() {
-    return JSON.stringify(this.model);
+  private collapseNewPaimentControl(): void {
+    $(this.newPaimentControl.nativeElement).collapse("hide");
   }
 }

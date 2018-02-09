@@ -8,6 +8,8 @@ namespace Domovoi.DAL.Models
     {
         public int Id { get; set; }
 
+        public int ConsumerId { get; set; }
+
         [Required]
         public Consumer Consumer { get; set; }
 

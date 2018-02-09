@@ -2,6 +2,7 @@ import { NgModule, LOCALE_ID } from "@angular/core";
 import { HttpModule } from "@angular/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms'
 
 /* Localization */
 import { registerLocaleData } from "@angular/common";
@@ -43,6 +44,7 @@ import { InvoiceListComponent } from "./components/invoice-list/invoice-list.com
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
+    FormsModule,
 
     /* Angular Date Time Picker https://www.npmjs.com/package/ng-pick-datetime */
     OwlDateTimeModule,

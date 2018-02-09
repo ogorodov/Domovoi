@@ -22,7 +22,7 @@ export abstract class ServiceBase<T extends DtoBase> {
   }
 
   getForConsumer(consumerId: string | number, pageSize: number, page: number): Promise<T[]> {
-    return this.http.get(`${this.baseApiUrl}/consumer/${consumerId}/${this.controllerName}/${pageSize}/${page}`)
+    return this.http.get(`${this.baseApiUrl}consumer/${consumerId}/${this.controllerName}/${pageSize}/${page}`)
       .toPromise()
       .then(response => {
         const objects = response.json() as T[];
@@ -33,7 +33,7 @@ export abstract class ServiceBase<T extends DtoBase> {
   }
 
   getForConsumerObjectsCount(consumerId: string | number): Promise<number> {
-    return this.http.get(`${this.baseApiUrl}/consumer/${consumerId}/${this.controllerName}/Count`)
+    return this.http.get(`${this.baseApiUrl}consumer/${consumerId}/${this.controllerName}/Count`)
       .toPromise()
       .then(response => parseInt(response.text()))
       .catch(this.handleError);

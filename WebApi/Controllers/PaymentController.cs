@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Domovoi.DAL.Data;
 using Domovoi.DAL.Models;
@@ -18,13 +19,16 @@ namespace Domovoi.WebApi.Controllers
 
         [HttpGet]
         [Route("api/consumer/{consumerId}/payment/{pageSize?}/{page?}")]
-        public IEnumerable<Payment> GetServices(int idConsumer, int pageSize = 12, int page = 1)
+        public IEnumerable<Payment> Get(int consumerId, int pageSize = 12, int page = 1)
         {
-            return _dbContext.Payments
-                .Where(o => o.Consumer.Id == idConsumer)
+            var t =  _dbContext.Payments
+                .Where(o => o.Consumer.Id == consumerId)
                 .OrderByDescending(o => o.DateTime)
                 .Skip((page - 1) * pageSize)
-                .Take(pageSize);
+                .Take(pageSize)
+                .ToArray();
+
+            return t;
         }
 
         [HttpGet]
@@ -32,6 +36,14 @@ namespace Domovoi.WebApi.Controllers
         public int ConsumerPaymentsCount(int consumerId)
         {
             return _dbContext.Payments.Count(o => o.Consumer.Id == consumerId);
+        }
+
+        [HttpPost]
+        [Route("api/consumer/{consumerId}/payment/add")]
+        public void Post(int consumerId, [FromBody] Payment payment)
+        {
+            _dbContext.Payments.Add(payment);
+            _dbContext.SaveChanges();
         }
     }
 }
