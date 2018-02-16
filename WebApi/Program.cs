@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore;
+﻿using Domovoi.DAL.Data;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Domovoi.WebApi
 {
@@ -7,7 +9,16 @@ namespace Domovoi.WebApi
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<ApplicationDbContext>();
+                DbInitializer.Initialize(context);
+            }
+
+            host.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args)

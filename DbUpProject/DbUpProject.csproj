@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>Domovoi.DbUpProject</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Scripts\201802162325_Initial_Setup.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\201802162325_Initial_Setup.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="dbup" Version="4.0.0-beta0002" />
+  </ItemGroup>
+
+</Project>

@@ -2,11 +2,24 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>Domovoi.DAL</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
+    <Compile Remove="Migrations\20180211071901_Add_columns_CompulsoryServicesSum_and_NotCompulsoryServicesSum_to_table_Invoice.cs" />
+    <Compile Remove="Migrations\20180211122817_Add_InvoicePayment_table.cs" />
+    <Compile Remove="Migrations\20180211124258_Add_table_InvoicePayment.cs" />
+    <Compile Remove="Migrations\20180211125150_Add_table_InvoicePayment.cs" />
+    <Compile Remove="Migrations\20180211125356_Add_table_InvoicePayment.cs" />
+    <Compile Remove="Migrations\20180211125730_Add_table_InvoicePayment.cs" />
+    <Compile Remove="Migrations\20180211125943_Add_table_InvoicePayment.cs" />
+    <Compile Remove="Migrations\20180212160939_Change_relation_in_Invoice.cs" />
+    <Compile Remove="Migrations\20180212172052_Change_relation_in_Invoice.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>

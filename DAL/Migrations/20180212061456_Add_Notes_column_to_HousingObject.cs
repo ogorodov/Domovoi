@@ -4,23 +4,21 @@ using System.Collections.Generic;
 
 namespace Domovoi.DAL.Migrations
 {
-    public partial class _3 : Migration
+    public partial class Add_Notes_column_to_HousingObject : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<decimal>(
-                name: "Price",
-                table: "ServicePrices",
-                type: "decimal(18, 2)",
-                nullable: false,
-                defaultValue: 0m);
+            migrationBuilder.AddColumn<string>(
+                name: "Notes",
+                table: "HousingObjects",
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Price",
-                table: "ServicePrices");
+                name: "Notes",
+                table: "HousingObjects");
         }
     }
 }

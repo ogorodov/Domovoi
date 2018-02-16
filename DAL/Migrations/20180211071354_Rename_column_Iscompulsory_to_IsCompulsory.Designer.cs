@@ -11,9 +11,10 @@ using System;
 namespace Domovoi.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180211071354_Rename_column_Iscompulsory_to_IsCompulsory")]
+    partial class Rename_column_Iscompulsory_to_IsCompulsory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,8 +99,6 @@ namespace Domovoi.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Notes");
-
                     b.HasKey("Id");
 
                     b.ToTable("HousingObjects");
@@ -110,17 +109,14 @@ namespace Domovoi.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
+
                     b.Property<int>("HousingObjectId");
-
-                    b.Property<int>("Month");
-
-                    b.Property<int>("OrganisationId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("HousingObjectId");
-
-                    b.HasIndex("OrganisationId", "HousingObjectId");
 
                     b.ToTable("Invoices");
                 });
@@ -138,27 +134,6 @@ namespace Domovoi.DAL.Migrations
                     b.HasIndex("InvoiceId");
 
                     b.ToTable("InvoiceItems");
-                });
-
-            modelBuilder.Entity("Domovoi.DAL.Models.InvoicePayment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("money");
-
-                    b.Property<int>("InvoiceId");
-
-                    b.Property<int?>("PaymentId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InvoiceId");
-
-                    b.HasIndex("PaymentId");
-
-                    b.ToTable("InvoicePayments");
                 });
 
             modelBuilder.Entity("Domovoi.DAL.Models.Organisation", b =>
@@ -360,16 +335,6 @@ namespace Domovoi.DAL.Migrations
                         .WithMany("Invoices")
                         .HasForeignKey("HousingObjectId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Domovoi.DAL.Models.Organisation", "Organisation")
-                        .WithMany()
-                        .HasForeignKey("OrganisationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Domovoi.DAL.Models.OrganizationHousingObject", "OrganizationHousingObject")
-                        .WithMany()
-                        .HasForeignKey("OrganisationId", "HousingObjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Domovoi.DAL.Models.InvoiceItem", b =>
@@ -383,18 +348,6 @@ namespace Domovoi.DAL.Migrations
                         .WithMany()
                         .HasForeignKey("ServicePriceId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Domovoi.DAL.Models.InvoicePayment", b =>
-                {
-                    b.HasOne("Domovoi.DAL.Models.Invoice", "Invoice")
-                        .WithMany()
-                        .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Domovoi.DAL.Models.Payment", "Payment")
-                        .WithMany()
-                        .HasForeignKey("PaymentId");
                 });
 
             modelBuilder.Entity("Domovoi.DAL.Models.OrganizationHousingObject", b =>

@@ -11,9 +11,10 @@ using System;
 namespace Domovoi.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180212172411_Change_relation_in_Invoice")]
+    partial class Change_relation_in_Invoice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -356,14 +357,9 @@ namespace Domovoi.DAL.Migrations
 
             modelBuilder.Entity("Domovoi.DAL.Models.Invoice", b =>
                 {
-                    b.HasOne("Domovoi.DAL.Models.HousingObject", "HousingObject")
+                    b.HasOne("Domovoi.DAL.Models.HousingObject")
                         .WithMany("Invoices")
                         .HasForeignKey("HousingObjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Domovoi.DAL.Models.Organisation", "Organisation")
-                        .WithMany()
-                        .HasForeignKey("OrganisationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Domovoi.DAL.Models.OrganizationHousingObject", "OrganizationHousingObject")

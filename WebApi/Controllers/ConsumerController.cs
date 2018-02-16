@@ -34,42 +34,43 @@ namespace Domovoi.WebApi.Controllers
         [Route("api/[controller]/{consumerId}/Calculate")]
         public void Calculate(int consumerId)
         {
-            var consumer = _dbContext.Consumers.Single(o => o.Id == consumerId);
-            var startDate = _dbContext.Invoices.Where(o => o.Consumer.Id == consumerId).DefaultIfEmpty().Max(o => o.Date);
+            throw new NotImplementedException();
+            //var consumer = _dbContext.Consumers.Single(o => o.Id == consumerId);
+            //var startDate = _dbContext.Invoices.Where(o => o.Consumer.Id == consumerId).DefaultIfEmpty().Max(o => o.Date);
 
-            if (startDate == DateTime.MinValue)
-                startDate = consumer.JoinDate.AddDays(1 - consumer.JoinDate.Day);
+            //if (startDate == DateTime.MinValue)
+            //    startDate = consumer.JoinDate.AddDays(1 - consumer.JoinDate.Day);
 
-            var endDate = DateTime.Now.Date;
-            endDate = endDate.AddDays(1 - endDate.Day);
+            //var endDate = DateTime.Now.Date;
+            //endDate = endDate.AddDays(1 - endDate.Day);
 
-            if (endDate <= startDate)
-                return;
+            //if (endDate <= startDate)
+            //    return;
 
-            var totalMonths = (endDate.Year - startDate.Year) * 12 + (endDate.Month - startDate.Month);
+            //var totalMonths = (endDate.Year - startDate.Year) * 12 + (endDate.Month - startDate.Month);
 
-            var servicePrices = _dbContext.ServicePrices.Where(o =>
-                o.StartDate <= endDate && (o.EndDate >= startDate || !o.EndDate.HasValue)).ToArray();
+            //var servicePrices = _dbContext.ServicePrices.Where(o =>
+            //    o.StartDate <= endDate && (o.EndDate >= startDate || !o.EndDate.HasValue)).ToArray();
 
-            var invoices = new List<Invoice>(totalMonths);
+            //var invoices = new List<Invoice>(totalMonths);
 
-            for (var i = 0; i < totalMonths; i++)
-            {
-                var invoice = new Invoice
-                {
-                    Consumer = consumer,
-                    Date = startDate.AddMonths(i)
-                };
+            //for (var i = 0; i < totalMonths; i++)
+            //{
+            //    var invoice = new Invoice
+            //    {
+            //        Consumer = consumer,
+            //        Date = startDate.AddMonths(i)
+            //    };
 
-                invoice.Items = servicePrices.Where(o => o.StartDate <= invoice.Date && (!o.EndDate.HasValue || o.EndDate >= invoice.Date))
-                    .Select(o => new InvoiceItem {Invoice = invoice, ServicePrice = o, Quantity = 1}).ToList();
+            //    invoice.Items = servicePrices.Where(o => o.StartDate <= invoice.Date && (!o.EndDate.HasValue || o.EndDate >= invoice.Date))
+            //        .Select(o => new InvoiceItem {Invoice = invoice, ServicePrice = o, Quantity = 1}).ToList();
 
-                if (invoice.Items.Count > 0)
-                    invoices.Add(invoice);
-            }
+            //    if (invoice.Items.Count > 0)
+            //        invoices.Add(invoice);
+            //}
 
-            _dbContext.Invoices.AddRange(invoices);
-            _dbContext.SaveChanges();
+            //_dbContext.Invoices.AddRange(invoices);
+            //_dbContext.SaveChanges();
         }
 
 

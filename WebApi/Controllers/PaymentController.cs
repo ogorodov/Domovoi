@@ -21,21 +21,24 @@ namespace Domovoi.WebApi.Controllers
         [Route("api/consumer/{consumerId}/payment/{pageSize?}/{page?}")]
         public IEnumerable<Payment> Get(int consumerId, int pageSize = 12, int page = 1)
         {
-            var t =  _dbContext.Payments
-                .Where(o => o.Consumer.Id == consumerId)
-                .OrderByDescending(o => o.DateTime)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToArray();
+            throw new NotImplementedException();
 
-            return t;
+            //var t =  _dbContext.Payments
+            //    .Where(o => o.Consumer.Id == consumerId)
+            //    .OrderByDescending(o => o.DateTime)
+            //    .Skip((page - 1) * pageSize)
+            //    .Take(pageSize)
+            //    .ToArray();
+
+            //return t;
         }
 
         [HttpGet]
         [Route("api/consumer/{consumerId}/payment/Count")]
         public int ConsumerPaymentsCount(int consumerId)
         {
-            return _dbContext.Payments.Count(o => o.Consumer.Id == consumerId);
+            throw new NotImplementedException();
+            //return _dbContext.Payments.Count(o => o.Consumer.Id == consumerId);
         }
 
         [HttpPost]

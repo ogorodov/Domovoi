@@ -11,14 +11,14 @@ using System;
 namespace Domovoi.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171016181243_2")]
-    partial class _2
+    [Migration("20180212172630_Add_navigation_properties_in_Invoice")]
+    partial class Add_navigation_properties_in_Invoice
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Domovoi.DAL.Models.ApplicationUser", b =>
@@ -80,6 +80,9 @@ namespace Domovoi.DAL.Migrations
                     b.Property<string>("FirstName")
                         .HasMaxLength(50);
 
+                    b.Property<DateTime>("JoinDate")
+                        .HasColumnType("date");
+
                     b.Property<string>("LastName")
                         .HasMaxLength(50);
 
@@ -91,16 +94,34 @@ namespace Domovoi.DAL.Migrations
                     b.ToTable("Consumers");
                 });
 
+            modelBuilder.Entity("Domovoi.DAL.Models.HousingObject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Notes");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HousingObjects");
+                });
+
             modelBuilder.Entity("Domovoi.DAL.Models.Invoice", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ConsumerId");
+                    b.Property<int>("HousingObjectId");
+
+                    b.Property<int>("Month");
+
+                    b.Property<int>("OrganisationId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConsumerId");
+                    b.HasIndex("HousingObjectId");
+
+                    b.HasIndex("OrganisationId", "HousingObjectId");
 
                     b.ToTable("Invoices");
                 });
@@ -111,6 +132,8 @@ namespace Domovoi.DAL.Migrations
 
                     b.Property<int>("InvoiceId");
 
+                    b.Property<byte>("Quantity");
+
                     b.HasKey("ServicePriceId", "InvoiceId");
 
                     b.HasIndex("InvoiceId");
@@ -118,18 +141,67 @@ namespace Domovoi.DAL.Migrations
                     b.ToTable("InvoiceItems");
                 });
 
+            modelBuilder.Entity("Domovoi.DAL.Models.InvoicePayment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("money");
+
+                    b.Property<int>("InvoiceId");
+
+                    b.Property<int?>("PaymentId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.ToTable("InvoicePayments");
+                });
+
+            modelBuilder.Entity("Domovoi.DAL.Models.Organisation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(150);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Organisations");
+                });
+
+            modelBuilder.Entity("Domovoi.DAL.Models.OrganizationHousingObject", b =>
+                {
+                    b.Property<int>("OrganisationId");
+
+                    b.Property<int>("HousingObjectId");
+
+                    b.Property<DateTime>("JoinDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("OrganisationId", "HousingObjectId");
+
+                    b.HasIndex("HousingObjectId");
+
+                    b.ToTable("OrganizationHousingObjects");
+                });
+
             modelBuilder.Entity("Domovoi.DAL.Models.Payment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ConsumerId");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("money");
 
                     b.Property<DateTime>("DateTime");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ConsumerId");
 
                     b.ToTable("Payments");
                 });
@@ -139,10 +211,16 @@ namespace Domovoi.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("IsCompulsory");
+
                     b.Property<string>("Name")
                         .HasMaxLength(500);
 
+                    b.Property<int?>("OrganisationId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("OrganisationId");
 
                     b.ToTable("Services");
                 });
@@ -152,11 +230,15 @@ namespace Domovoi.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime?>("EndDate");
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("Price");
 
                     b.Property<int?>("ServiceId");
 
-                    b.Property<DateTime>("StartDate");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("date");
 
                     b.HasKey("Id");
 
@@ -275,16 +357,26 @@ namespace Domovoi.DAL.Migrations
 
             modelBuilder.Entity("Domovoi.DAL.Models.Invoice", b =>
                 {
-                    b.HasOne("Domovoi.DAL.Models.Consumer", "Consumer")
+                    b.HasOne("Domovoi.DAL.Models.HousingObject", "HousingObject")
+                        .WithMany("Invoices")
+                        .HasForeignKey("HousingObjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domovoi.DAL.Models.Organisation", "Organisation")
                         .WithMany()
-                        .HasForeignKey("ConsumerId")
+                        .HasForeignKey("OrganisationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domovoi.DAL.Models.OrganizationHousingObject", "OrganizationHousingObject")
+                        .WithMany()
+                        .HasForeignKey("OrganisationId", "HousingObjectId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Domovoi.DAL.Models.InvoiceItem", b =>
                 {
                     b.HasOne("Domovoi.DAL.Models.Invoice", "Invoice")
-                        .WithMany()
+                        .WithMany("Items")
                         .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -294,12 +386,36 @@ namespace Domovoi.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Domovoi.DAL.Models.Payment", b =>
+            modelBuilder.Entity("Domovoi.DAL.Models.InvoicePayment", b =>
                 {
-                    b.HasOne("Domovoi.DAL.Models.Consumer", "Consumer")
+                    b.HasOne("Domovoi.DAL.Models.Invoice", "Invoice")
                         .WithMany()
-                        .HasForeignKey("ConsumerId")
+                        .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domovoi.DAL.Models.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentId");
+                });
+
+            modelBuilder.Entity("Domovoi.DAL.Models.OrganizationHousingObject", b =>
+                {
+                    b.HasOne("Domovoi.DAL.Models.HousingObject", "HousingObject")
+                        .WithMany("OrganizationHousingObjects")
+                        .HasForeignKey("HousingObjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domovoi.DAL.Models.Organisation", "Organisation")
+                        .WithMany("OrganizationHousingObjects")
+                        .HasForeignKey("OrganisationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Domovoi.DAL.Models.Service", b =>
+                {
+                    b.HasOne("Domovoi.DAL.Models.Organisation", "Organisation")
+                        .WithMany()
+                        .HasForeignKey("OrganisationId");
                 });
 
             modelBuilder.Entity("Domovoi.DAL.Models.ServicePrice", b =>
