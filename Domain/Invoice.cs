@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace Domovoi.DAL.Models
+namespace Domovoi.Domain
 {
     public sealed class Invoice
     {

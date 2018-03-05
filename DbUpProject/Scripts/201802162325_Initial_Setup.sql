@@ -1,4 +1,4 @@
-﻿/****** Object:  Table [dbo].[Consumers]    Script Date: 16.02.2018 23:21:58 ******/
+﻿/****** Object:  Table [dbo].[Consumers]    Script Date: 05.03.2018 17:06:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16,30 +16,30 @@ CREATE TABLE [dbo].[Consumers](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[HousingObjects]    Script Date: 16.02.2018 23:21:58 ******/
+/****** Object:  Table [dbo].[HousingObjects]    Script Date: 05.03.2018 17:06:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[HousingObjects](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Notes] [nvarchar](max) NULL,
+	[Note] [nvarchar](500) NULL,
  CONSTRAINT [PK_HousingObjects] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[InvoiceItems]    Script Date: 16.02.2018 23:21:58 ******/
+/****** Object:  Table [dbo].[InvoiceItems]    Script Date: 05.03.2018 17:06:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[InvoiceItems](
 	[Id] [int] NOT NULL,
-	[ServicePriceId] [int] NOT NULL,
 	[InvoiceId] [int] NOT NULL,
+	[ServicePriceId] [int] NOT NULL,
 	[Quantity] [tinyint] NOT NULL,
  CONSTRAINT [PK_InvoiceItems] PRIMARY KEY CLUSTERED 
 (
@@ -53,7 +53,7 @@ CREATE TABLE [dbo].[InvoiceItems](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[InvoicePayments]    Script Date: 16.02.2018 23:21:58 ******/
+/****** Object:  Table [dbo].[InvoicePayments]    Script Date: 05.03.2018 17:06:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -75,7 +75,7 @@ CREATE TABLE [dbo].[InvoicePayments](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Invoices]    Script Date: 16.02.2018 23:21:58 ******/
+/****** Object:  Table [dbo].[Invoices]    Script Date: 05.03.2018 17:06:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -83,7 +83,7 @@ GO
 CREATE TABLE [dbo].[Invoices](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[OrganisationHousingObjectId] [int] NOT NULL,
-	[Month] [int] NOT NULL,
+	[Month] [int] NOT NULL CONSTRAINT [DF__Invoices__Month__282DF8C2]  DEFAULT ((0)),
  CONSTRAINT [PK_Invoices] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -96,7 +96,7 @@ CREATE TABLE [dbo].[Invoices](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[OrganisationHousingObjects]    Script Date: 16.02.2018 23:21:58 ******/
+/****** Object:  Table [dbo].[OrganisationHousingObjects]    Script Date: 05.03.2018 17:06:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -119,7 +119,7 @@ CREATE TABLE [dbo].[OrganisationHousingObjects](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Organisations]    Script Date: 16.02.2018 23:21:58 ******/
+/****** Object:  Table [dbo].[Organisations]    Script Date: 05.03.2018 17:06:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -134,7 +134,7 @@ CREATE TABLE [dbo].[Organisations](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Payments]    Script Date: 16.02.2018 23:21:58 ******/
+/****** Object:  Table [dbo].[Payments]    Script Date: 05.03.2018 17:06:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -150,7 +150,7 @@ CREATE TABLE [dbo].[Payments](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[ServicePrices]    Script Date: 16.02.2018 23:21:58 ******/
+/****** Object:  Table [dbo].[ServicePrices]    Script Date: 05.03.2018 17:06:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -168,7 +168,7 @@ CREATE TABLE [dbo].[ServicePrices](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Services]    Script Date: 16.02.2018 23:21:58 ******/
+/****** Object:  Table [dbo].[Services]    Script Date: 05.03.2018 17:06:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -185,19 +185,17 @@ CREATE TABLE [dbo].[Services](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Index [IX_ServicePrices_ServiceId]    Script Date: 16.02.2018 23:21:58 ******/
+/****** Object:  Index [IX_ServicePrices_ServiceId]    Script Date: 05.03.2018 17:06:22 ******/
 CREATE NONCLUSTERED INDEX [IX_ServicePrices_ServiceId] ON [dbo].[ServicePrices]
 (
 	[ServiceId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Services_OrganisationId]    Script Date: 16.02.2018 23:21:58 ******/
+/****** Object:  Index [IX_Services_OrganisationId]    Script Date: 05.03.2018 17:06:22 ******/
 CREATE NONCLUSTERED INDEX [IX_Services_OrganisationId] ON [dbo].[Services]
 (
 	[OrganisationId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[Invoices] ADD  CONSTRAINT [DF__Invoices__Month__282DF8C2]  DEFAULT ((0)) FOR [Month]
 GO
 ALTER TABLE [dbo].[InvoiceItems]  WITH CHECK ADD  CONSTRAINT [FK_InvoiceItems_Invoices] FOREIGN KEY([InvoiceId])
 REFERENCES [dbo].[Invoices] ([Id])
@@ -244,12 +242,11 @@ REFERENCES [dbo].[Organisations] ([Id])
 GO
 ALTER TABLE [dbo].[Services] CHECK CONSTRAINT [FK_Services_Organisations]
 GO
-/****** Object:  StoredProcedure [dbo].[CreateInvoices]    Script Date: 16.02.2018 23:21:58 ******/
+/****** Object:  StoredProcedure [dbo].[CreateInvoices]    Script Date: 05.03.2018 17:06:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
 -- =============================================
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
@@ -263,8 +260,37 @@ BEGIN
 	SET NOCOUNT ON;
 
     DECLARE @minimumMonth INT, @currentMonth INT;
-
 	SET @currentMonth = DATEDIFF(month, 0, GETDATE());
-	SELECT @currentMonth = (ISNULL((SELECT MAX(Month) FROM Invoices AS i WHERE i.OrganisationHousingObjectId = oho.Id), DATEDIFF(month, 0, oho.JoinDate) - 1) + 1)
-	FROM [OrganisationHousingObjects] AS oho;
+
+	DECLARE @InvoicesIds TABLE (Id int NOT NULL PRIMARY KEY);
+
+	BEGIN TRANSACTION;
+
+	/* Generate new Invices */
+	INSERT INTO Invoices (OrganisationHousingObjectId, [Month])
+	OUTPUT inserted.id INTO @InvoicesIds
+	SELECT q1.OrganisationHousingObjectId
+		,[values].number
+	FROM
+	(
+		SELECT oho.Id AS OrganisationHousingObjectId,
+			(ISNULL((SELECT MAX(Month) FROM Invoices AS i WHERE i.OrganisationHousingObjectId = oho.Id), DATEDIFF(month, 0, oho.JoinDate) - 1) + 1) AS InvoiceMonth
+		FROM OrganisationHousingObjects AS oho
+	) AS q1
+	LEFT JOIN master..spt_values AS [values] ON [values].[type] = 'p' AND [values].number BETWEEN q1.InvoiceMonth AND @currentMonth
+	WHERE q1.InvoiceMonth <= @currentMonth;
+	
+	/* Generate Items for invoices */
+	INSERT INTO InvoiceItems (InvoiceId, ServicePriceId, Quantity)
+	SELECT i.Id AS InvoiceId
+		,sp.Id AS ServicePriceId
+		,1 AS Quantity
+	FROM Invoices AS i
+		INNER JOIN @InvoicesIds AS ids ON ids.Id = i.Id
+		INNER JOIN OrganisationHousingObjects AS oho ON oho.Id = i.OrganisationHousingObjectId
+		INNER JOIN [Services] AS s on s.OrganisationId = oho.OrganisationId
+		INNER JOIN ServicePrices AS sp ON sp.ServiceId = s.Id AND i.[Month] BETWEEN sp.StartMonth AND sp.EndMonth
+
+
+	COMMIT;
 END

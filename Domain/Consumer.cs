@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Domovoi.DAL.Models
+namespace Domovoi.Domain
 {
     public sealed class Consumer
     {

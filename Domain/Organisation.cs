@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Domovoi.DAL.Models
+namespace Domovoi.Domain
 {
-    public class HousingObject
+    public sealed class Organisation
     {
         public int Id { get; set; }
         public List<OrganizationHousingObject> OrganizationHousingObjects { get; set; }
-        public string Notes { get; set; }
+        public string Name { get; set; }
     }
 }
