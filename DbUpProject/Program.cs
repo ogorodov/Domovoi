@@ -11,7 +11,7 @@ namespace Domovoi.DbUpProject
         {
             var connectionString =
                 args.FirstOrDefault()
-                ?? "Data Source=.\\SQLEXPRESS;Initial Catalog=Domovoi_DbUp;Integrated Security=True";
+                ?? "Data Source=.\\SQLEXPRESS;Initial Catalog=Domovoi;Integrated Security=True";
 
             EnsureDatabase.For.SqlDatabase(connectionString);
 

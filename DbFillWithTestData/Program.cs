@@ -85,6 +85,20 @@ namespace Domovoi.DbFillWithTestData
                     }
                 }
 
+                /****************************************************************************************************
+                 * Payment
+                 ****************************************************************************************************/
+                if (connection.ExecuteScalar<int>("SELECT Count(*) FROM [Payments]") < 1)
+                {
+                    var now = DateTime.Now;
+                    for (int i = 0; i < housingObjects.Length; i++)
+                        if (i % 2 == 0)
+                        {
+                            for (int j = i; j >= 0; j--)
+                                connection.Execute("INSERT INTO [Payments] (HousingObjectId, Amount, DateTime) VALUES (@HousingObjectId, @Amount, @DateTime)",
+                                    new { HousingObjectId = housingObjects[i].Id, Amount = (i - j + 1) * 1000, DateTime = now.AddMonths(-j) });
+                        }
+                }
 
                 //{
                 //    var services = new[]
@@ -129,7 +143,7 @@ namespace Domovoi.DbFillWithTestData
                 //    dbContext.AddRange(services);
                 //}
 
-                
+
             }
 
             Console.WriteLine("Complete");
