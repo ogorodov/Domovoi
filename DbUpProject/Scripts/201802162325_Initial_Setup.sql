@@ -1,4 +1,4 @@
-﻿/****** Object:  Table [dbo].[Consumers]    Script Date: 07.03.2018 17:41:09 ******/
+﻿/****** Object:  Table [dbo].[Consumers]    Script Date: 02.05.2018 13:36:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14,8 +14,9 @@ CREATE TABLE [dbo].[Consumers](
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
 GO
-/****** Object:  Table [dbo].[HousingObjects]    Script Date: 07.03.2018 17:41:09 ******/
+/****** Object:  Table [dbo].[HousingObjects]    Script Date: 02.05.2018 13:36:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -28,14 +29,15 @@ CREATE TABLE [dbo].[HousingObjects](
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
 GO
-/****** Object:  Table [dbo].[InvoiceItems]    Script Date: 07.03.2018 17:41:09 ******/
+/****** Object:  Table [dbo].[InvoiceItems]    Script Date: 02.05.2018 13:36:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[InvoiceItems](
-	[Id] [int] NOT NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[InvoiceId] [int] NOT NULL,
 	[ServicePriceId] [int] NOT NULL,
 	[Quantity] [tinyint] NOT NULL,
@@ -49,17 +51,19 @@ CREATE TABLE [dbo].[InvoiceItems](
 	[ServicePriceId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
 GO
-/****** Object:  Table [dbo].[InvoicePayments]    Script Date: 07.03.2018 17:41:09 ******/
+/****** Object:  Table [dbo].[InvoicePayments]    Script Date: 02.05.2018 13:36:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[InvoicePayments](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[InvoiceId] [int] NOT NULL,
+	[InvoiceId] [int] NULL,
 	[PaymentId] [int] NULL,
 	[Amount] [money] NOT NULL,
+	[IsApplyPenalty] [bit] NOT NULL CONSTRAINT [DF_InvoicePayments_IsApplyPenalty]  DEFAULT ((0)),
  CONSTRAINT [PK_InvoicePayments] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -67,11 +71,13 @@ CREATE TABLE [dbo].[InvoicePayments](
  CONSTRAINT [NK_InvoicePayments] UNIQUE NONCLUSTERED 
 (
 	[InvoiceId] ASC,
-	[PaymentId] ASC
+	[PaymentId] ASC,
+	[IsApplyPenalty] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
 GO
-/****** Object:  Table [dbo].[Invoices]    Script Date: 07.03.2018 17:41:09 ******/
+/****** Object:  Table [dbo].[Invoices]    Script Date: 02.05.2018 13:36:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -79,7 +85,7 @@ GO
 CREATE TABLE [dbo].[Invoices](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[OrganisationHousingObjectId] [int] NOT NULL,
-	[Month] [int] NOT NULL,
+	[Month] [int] NOT NULL CONSTRAINT [DF__Invoices__Month__282DF8C2]  DEFAULT ((0)),
  CONSTRAINT [PK_Invoices] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -90,8 +96,9 @@ CREATE TABLE [dbo].[Invoices](
 	[OrganisationHousingObjectId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
 GO
-/****** Object:  Table [dbo].[OrganisationHousingObjects]    Script Date: 07.03.2018 17:41:09 ******/
+/****** Object:  Table [dbo].[OrganisationHousingObjects]    Script Date: 02.05.2018 13:36:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -112,8 +119,9 @@ CREATE TABLE [dbo].[OrganisationHousingObjects](
 	[JoinDate] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
 GO
-/****** Object:  Table [dbo].[Organisations]    Script Date: 07.03.2018 17:41:09 ******/
+/****** Object:  Table [dbo].[Organisations]    Script Date: 02.05.2018 13:36:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -126,8 +134,9 @@ CREATE TABLE [dbo].[Organisations](
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
 GO
-/****** Object:  Table [dbo].[Payments]    Script Date: 07.03.2018 17:41:09 ******/
+/****** Object:  Table [dbo].[Payments]    Script Date: 02.05.2018 13:36:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -135,30 +144,16 @@ GO
 CREATE TABLE [dbo].[Payments](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[HousingObjectId] [int] NOT NULL,
-	[Amount] [money] NOT NULL,
 	[DateTime] [datetime2](2) NOT NULL,
+	[Amount] [money] NOT NULL,
  CONSTRAINT [PK_Payments] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
 GO
-/****** Object:  Table [dbo].[SchemaVersions]    Script Date: 07.03.2018 17:41:09 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[SchemaVersions](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[ScriptName] [nvarchar](255) NOT NULL,
-	[Applied] [datetime] NOT NULL,
- CONSTRAINT [PK_SchemaVersions_Id] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[ServicePrices]    Script Date: 07.03.2018 17:41:09 ******/
+/****** Object:  Table [dbo].[ServicePrices]    Script Date: 02.05.2018 13:36:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -174,8 +169,9 @@ CREATE TABLE [dbo].[ServicePrices](
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
 GO
-/****** Object:  Table [dbo].[Services]    Script Date: 07.03.2018 17:41:09 ******/
+/****** Object:  Table [dbo].[Services]    Script Date: 02.05.2018 13:36:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -190,20 +186,19 @@ CREATE TABLE [dbo].[Services](
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
 GO
-/****** Object:  Index [IX_ServicePrices_ServiceId]    Script Date: 07.03.2018 17:41:09 ******/
+/****** Object:  Index [IX_ServicePrices_ServiceId]    Script Date: 02.05.2018 13:36:37 ******/
 CREATE NONCLUSTERED INDEX [IX_ServicePrices_ServiceId] ON [dbo].[ServicePrices]
 (
 	[ServiceId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Services_OrganisationId]    Script Date: 07.03.2018 17:41:09 ******/
+/****** Object:  Index [IX_Services_OrganisationId]    Script Date: 02.05.2018 13:36:37 ******/
 CREATE NONCLUSTERED INDEX [IX_Services_OrganisationId] ON [dbo].[Services]
 (
 	[OrganisationId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[Invoices] ADD  CONSTRAINT [DF__Invoices__Month__282DF8C2]  DEFAULT ((0)) FOR [Month]
 GO
 ALTER TABLE [dbo].[InvoiceItems]  WITH CHECK ADD  CONSTRAINT [FK_InvoiceItems_Invoices] FOREIGN KEY([InvoiceId])
 REFERENCES [dbo].[Invoices] ([Id])
@@ -255,7 +250,7 @@ REFERENCES [dbo].[Organisations] ([Id])
 GO
 ALTER TABLE [dbo].[Services] CHECK CONSTRAINT [FK_Services_Organisations]
 GO
-/****** Object:  StoredProcedure [dbo].[CreateInvoices]    Script Date: 07.03.2018 17:41:09 ******/
+/****** Object:  StoredProcedure [dbo].[CreateInvoices]    Script Date: 02.05.2018 13:36:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -302,11 +297,90 @@ BEGIN
 		INNER JOIN @InvoicesIds AS ids ON ids.Id = i.Id
 		INNER JOIN OrganisationHousingObjects AS oho ON oho.Id = i.OrganisationHousingObjectId
 		INNER JOIN [Services] AS s on s.OrganisationId = oho.OrganisationId
-		INNER JOIN ServicePrices AS sp ON sp.ServiceId = s.Id AND i.[Month] >= sp.StartMonth
-			AND (i.[Month] <= sp.EndMonth OR sp.EndMonth IS NULL)
+		INNER JOIN ServicePrices AS sp ON sp.ServiceId = s.Id AND i.[Month] >= sp.StartMonth AND (sp.EndMonth IS NULL OR i.[Month] <= sp.EndMonth)
 
+	/* Calculate invoces summs */
+	DECLARE @i TABLE (InvoiceId INT NOT NULL, IsCompulsory BIT NOT NULL, HousingObjectId INT NOT NULL, TotalStart MONEY NOT NULL, TotalEnd MONEY NOT NULL);
+	INSERT INTO @i
+	SELECT InvoiceId, IsCompulsory, HousingObjectId
+		,TotalSum - [Sum] AS TotalStart
+		,TotalSum AS TotalEnd
+	FROM
+	(
+		SELECT InvoiceId, IsCompulsory, HousingObjectId, [Sum]
+			, SUM([sum]) OVER(PARTITION BY HousingObjectId ORDER BY IsCompulsory DESC, Month, InvoiceId) AS TotalSum
+		FROM
+		(
+			SELECT 
+				i.Id AS InvoiceId
+				,i.Month
+				,s.IsCompulsory
+				,oho.HousingObjectId
+				,SUM(sp.Price * ii.Quantity) AS [Sum]
+			FROM Invoices AS i
+				--INNER JOIN @InvoicesIds AS ids ON ids.Id = i.Id
+				INNER JOIN OrganisationHousingObjects AS oho ON oho.Id = i.OrganisationHousingObjectId
+				INNER JOIN InvoiceItems AS ii ON ii.InvoiceId = i.Id
+				INNER JOIN ServicePrices AS sp ON sp.Id = ii.ServicePriceId
+				INNER JOIN [Services] AS s on s.Id = sp.ServiceId
+			GROUP BY oho.HousingObjectId, i.Month, i.Id, s.IsCompulsory
+		) AS q1
+	) AS q2
+
+	/* Возьмём доступные платежи, т.е. платежи не связанные с извещением */
+	DECLARE @p TABLE (InvoicePaymentId INT NOT NULL, PaymentId INT NOT NULL, HousingObjectId INT NOT NULL, TotalStart MONEY NOT NULL, TotalEnd MONEY NOT NULL);
+	INSERT INTO @p
+	SELECT InvoicePaymentId
+		,PaymentId
+		,HousingObjectId
+		,TotalSum - Amount AS TotalStart
+		,TotalSum AS TotalEnd
+	FROM
+	(
+		SELECT ip.Id AS InvoicePaymentId
+			,ip.PaymentId
+			,p.HousingObjectId
+			,ip.Amount
+			,SUM(ip.Amount) OVER(PARTITION BY p.HousingObjectId ORDER BY p.DateTime) AS TotalSum
+		FROM InvoicePayments AS ip
+			INNER JOIN Payments AS p ON p.Id = ip.PaymentId
+		WHERE ip.InvoiceId IS NULL
+	) AS q1
+
+	/* Создадим строки для InvoicePayments таблицы */
+	MERGE INTO InvoicePayments AS [target]
+		USING 
+		(
+			SELECT p.InvoicePaymentId AS Id
+				,i.InvoiceId
+				,p.PaymentId
+				,q2.TotalEnd - q2.TotalStart AS Amount
+				,ISNULL(i.IsCompulsory, 0) AS IsApplyPenalty
+				,ROW_NUMBER() OVER(PARTITION BY p.InvoicePaymentId ORDER BY q2.HousingObjectId, q2.TotalStart) AS RowNumber
+			FROM
+			(
+				/* для каждого значения добавим результат предыдущей строки */
+				SELECT DISTINCT HousingObjectId
+					,LAG(TotalEnd, 1, 0) OVER(PARTITION BY HousingObjectId ORDER BY TotalEnd) AS TotalStart
+					,TotalEnd
+				FROM
+				(
+					/* возьмём все значения нарастающих итогов из таблиц "платежи" и "суммы платёжного извещения" (уникальное объединение множеств @i.TotalEnd & @p.TotalEnd) */
+					SELECT i.HousingObjectId, i.TotalEnd
+					FROM @i AS i
+					UNION SELECT p.HousingObjectId, p.TotalEnd
+					FROM @p AS p
+				) AS q1
+			) AS q2
+			LEFT JOIN @i AS i ON i.HousingObjectId = q2.HousingObjectId AND q2.TotalEnd > i.TotalStart AND q2.TotalEnd <= i.TotalEnd
+			LEFT JOIN @p AS p ON p.HousingObjectId = q2.HousingObjectId AND q2.TotalEnd > p.TotalStart AND q2.TotalEnd <= p.TotalEnd
+		) AS [source]
+		ON [target].Id = [source].Id AND [source].RowNumber = 1
+	WHEN MATCHED THEN   
+		UPDATE SET InvoiceId = source.InvoiceId, Amount = source.Amount, IsApplyPenalty = source.IsApplyPenalty
+	WHEN NOT MATCHED THEN  
+		INSERT (InvoiceId, PaymentId, Amount, IsApplyPenalty)
+		VALUES (source.InvoiceId, source.PaymentId, source.Amount, source.IsApplyPenalty);
 	
-
-
 	COMMIT;
 END
