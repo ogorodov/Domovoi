@@ -61,13 +61,24 @@ namespace Domovoi.DbFillWithTestData
                 /****************************************************************************************************
                  * Service
                  ****************************************************************************************************/
-                var serviceNames = new[] {"Текущий ремонт жилфонда", "Коньсерж", "Уборка", "Антена", };
-                if (connection.ExecuteScalar<int>("SELECT Count(*) FROM [Services]") < 1)
-                    for (int i = 0; i < serviceNames.Length; i++)
-                        connection.Execute("INSERT INTO [Services] (OrganisationId, Name, IsCompulsory) VALUES (@OrganisationId, @Name, @IsCompulsory)",
-                            new {OrganisationId = organisations[i % 2].Id, Name = serviceNames[i], IsCompulsory = !Convert.ToBoolean(i % 2) });
+                var services = new[]
+                {
+                    new Service {Name = "Текущий ремонт жилфонда", Organisation = organisations[0], IsCompulsory = true},
+                    new Service {Name = "Вывоз мусора", Organisation = organisations[0], IsCompulsory = true},
+                    new Service {Name = "{Хрен бы знал что ещё", Organisation = organisations[0], IsCompulsory = true},
+                    new Service {Name = "Коньсерж", Organisation = organisations[0], IsCompulsory = false},
+                    new Service {Name = "Уборка", Organisation = organisations[1], IsCompulsory = true},
+                    new Service {Name = "Антена", Organisation = organisations[1], IsCompulsory = false},
+                    new Service {Name = "Интернет", Organisation = organisations[1], IsCompulsory = false},
+                    new Service {Name = "Цифровое ТВ", Organisation = organisations[1], IsCompulsory = false}
+                };
 
-                var services = connection.GetAll<Service>().Where(o => serviceNames.Contains(o.Name)).ToArray();
+                if (connection.ExecuteScalar<int>("SELECT Count(*) FROM [Services]") < 1)
+                    foreach (var service in services)
+                        connection.Execute("INSERT INTO [Services] (OrganisationId, Name, IsCompulsory) VALUES (@OrganisationId, @Name, @IsCompulsory)",
+                            new {OrganisationId = service.Organisation.Id, service.Name, service.IsCompulsory});
+
+                services = connection.GetAll<Service>().Where(o => services.Select(s => s.Name).Contains(o.Name)).ToArray();
 
                 /****************************************************************************************************
                  * ServicePrice
@@ -76,29 +87,34 @@ namespace Domovoi.DbFillWithTestData
                 {
                     var now = DateTime.Now.Date;
                     for (var i = 0; i < services.Length; i++)
-                    {
-                        for (var j = i; j >= 0; j--)
-                        {
-                            connection.Execute("INSERT INTO ServicePrices (ServiceId, StartMonth, EndMonth, Price) VALUES (@ServiceId,@StartMonth,@EndMonth,@Price)",
-                                new {ServiceId = services[i].Id, StartMonth = now.Months() - (j + 1) * 3, EndMonth = j == 0 ? (int?) null : now.Months() - 1 - j * 3, Price = 100});
-                        }
-                    }
+                    for (var j = i; j >= 0; j--)
+                        connection.Execute("INSERT INTO ServicePrices (ServiceId, StartMonth, EndMonth, Price) VALUES (@ServiceId,@StartMonth,@EndMonth,@Price)",
+                            new {ServiceId = services[i].Id, StartMonth = now.Months() - (j + 1) * 3, EndMonth = j == 0 ? (int?) null : now.Months() - 1 - j * 3, Price = 100 * i - 10 * j + 15});
                 }
 
                 /****************************************************************************************************
-                 * Payment
+                 * Payments
                  ****************************************************************************************************/
                 if (connection.ExecuteScalar<int>("SELECT Count(*) FROM [Payments]") < 1)
                 {
                     var now = DateTime.Now;
-                    for (int i = 0; i < housingObjects.Length; i++)
+                    for (var i = 0; i < housingObjects.Length; i++)
                         if (i % 2 == 0)
-                        {
-                            for (int j = i; j >= 0; j--)
+                            for (var j = i; j >= 0; j--)
                                 connection.Execute("INSERT INTO [Payments] (HousingObjectId, Amount, DateTime) VALUES (@HousingObjectId, @Amount, @DateTime)",
-                                    new { HousingObjectId = housingObjects[i].Id, Amount = (i - j + 1) * 1000, DateTime = now.AddMonths(-j) });
-                        }
+                                    new {HousingObjectId = housingObjects[i].Id, Amount = (i - j) * 1100 + 10, DateTime = now.AddMonths(-j)});
                 }
+
+                var payments = connection.GetAll<Payment>().Where(p => housingObjects.Select(o => o.Id).Contains(p.HousingObjectId)).ToArray();
+
+                /****************************************************************************************************
+                 * InvoicePayments
+                 ****************************************************************************************************/
+                if (connection.ExecuteScalar<int>("SELECT Count(*) FROM [InvoicePayments]") < 1)
+                    foreach (var payment in payments)
+                        connection.Execute("INSERT INTO [InvoicePayments] ([PaymentId], [Amount]) VALUES(@PaymentId, @Amount)",
+                            new {PaymentId = payment.Id, payment.Amount});
+
 
                 //{
                 //    var services = new[]
@@ -142,8 +158,6 @@ namespace Domovoi.DbFillWithTestData
 
                 //    dbContext.AddRange(services);
                 //}
-
-
             }
 
             Console.WriteLine("Complete");
@@ -156,7 +170,7 @@ namespace Domovoi.DbFillWithTestData
         {
             var start = new DateTime(1900, 1, 1);
 
-            return (date.Year * 12 + date.Month) - (start.Year * 12 + start.Month);
+            return date.Year * 12 + date.Month - (start.Year * 12 + start.Month);
         }
     }
 }
